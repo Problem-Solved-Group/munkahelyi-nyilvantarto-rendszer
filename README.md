@@ -1,2 +1,2 @@
-# -working-time-records
+# working-time-records
 Munkaidő nyilvántartás
