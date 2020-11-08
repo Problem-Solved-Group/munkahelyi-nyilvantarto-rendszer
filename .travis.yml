@@ -1,7 +1,7 @@
 jobs:
   include:
   - language: java
-    jdk: openjdk8
+    jdk: openjdk11
     cache: 
       directories:
         - $HOME/.m2
@@ -9,9 +9,9 @@ jobs:
     script: mvn -B test  # mvn clean install would work, too
 
     deploy:
-      skip_cleanup: true
+      cleanup: false
       provider: heroku
       api_key:
-        secure: 
+        secure: ""
       app: munkahelyi-nyilvantarto-rendsz
-    on: main
+    on: master
