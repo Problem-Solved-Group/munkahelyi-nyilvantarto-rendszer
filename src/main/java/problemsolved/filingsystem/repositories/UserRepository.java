@@ -1,11 +1,8 @@
 package problemsolved.filingsystem.repositories;
 
-import problemsolved.filingsystem.entities.User;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import problemsolved.filingsystem.entities.User;
 
-
-@Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, Interger>{
     
 }
