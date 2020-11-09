@@ -31,11 +31,12 @@ public class Message {
     @Column(nullable = false)
     private String message;
     
+    
     @ManyToOne
     private User sender;
     
     @ManyToOne
-    private User reciever;
+    private User receiver;
     
     @Column(updatable = false)
     @CreationTimestamp

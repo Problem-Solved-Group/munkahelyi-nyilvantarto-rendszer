@@ -1,5 +1,6 @@
 package problemsolved.filingsystem.entities;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     
     @Column(nullable = false)
     private String username;
@@ -28,13 +30,25 @@ public class User {
     private String password;
     
     @Column(nullable = false)
-    private boolean enabled;
+    private String email;
+    
+    public enum Role {
+        WORKER, LEADER, ADMIN
+    }
     
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
     
-    public enum Role {
-        WORKER, LEADER, ADMIN
-    }
+    @OneToMany(mappedBy = "sender")
+    private List<Message> sentMessages;
+    
+    @OneToMany(mappedBy = "receiver")
+    private List<Message> receivedMessages;
+    
+    @OneToMany(mappedBy = "user")
+    private List<HolidayRequest> holidayRequests;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Announcement> announcements;
 }
