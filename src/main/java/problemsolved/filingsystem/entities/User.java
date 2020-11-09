@@ -2,6 +2,8 @@ package problemsolved.filingsystem.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,11 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    
-    public enum Role {
-        WORKER,LEADER,ADMIN
-    }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,14 +25,16 @@ public class User {
     private String username;
     
     @Column(nullable = false)
-    private String username;
+    private String password;
     
     @Column(nullable = false)
-    private String email;
+    private boolean enabled;
     
-    @Colum(nullable = false)
-    @Enumerated(EnumType.String)
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
     
-    
+    public enum Role {
+        WORKER, LEADER, ADMIN
+    }
 }
