@@ -14,6 +14,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import problemsolved.filingsystem.entities.HolidayRequest;
 import problemsolved.filingsystem.entities.User;
 @RestController
@@ -34,12 +38,36 @@ public class HolidayRequestController {
         String username = auth.getName();
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
-            List<HolidayRequest> requests = new ArrayList<>();
-            for(HolidayRequest hr: holidayRepository.findAll()) {
-                if(hr.getUser().getUsername().equals(username)) requests.add(hr);
-            }
-            return ResponseEntity.ok(requests);
+            return ResponseEntity.ok(user.get().getHolidayRequests());
+            
         }
         return ResponseEntity.notFound().build();
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<HolidayRequest> get(@PathVariable Integer id) {
+        Optional<HolidayRequest> oRequest = holidayRepository.findById(id);
+        if (oRequest.isPresent()) {
+            return ResponseEntity.ok(oRequest.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @PostMapping("")
+    public ResponseEntity<HolidayRequest> insert(@RequestBody HolidayRequest issue) {
+        return ResponseEntity.ok(holidayRepository.save(issue));
+    }
+    
+    @DeleteMapping("/{id}")
+    //@Secured({ "ADMIN" })
+    public ResponseEntity<HolidayRequest> delete(@PathVariable Integer id) {
+        Optional<HolidayRequest> oRequest = holidayRepository.findById(id);
+        if (oRequest.isPresent()) {
+            holidayRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

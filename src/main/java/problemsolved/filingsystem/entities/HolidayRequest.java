@@ -1,5 +1,6 @@
 package problemsolved.filingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +29,7 @@ public class HolidayRequest {
     private Integer id;
     
     @ManyToOne
+    @JsonIgnore
     private User user;
     
     @Column(updatable = false)
