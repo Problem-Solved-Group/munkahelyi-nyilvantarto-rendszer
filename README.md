@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/Problem-Solved-Group/munkahelyi-nyilvantarto-rendszer.svg?branch=master)](https://travis-ci.com/Problem-Solved-Group/munkahelyi-nyilvantarto-rendszer)
 # Munkahelyi nyilvántartó rendszer
 
 *Egy olyan rendszer, mely segít a dolgozók szabadságát, illetve munkaidejét nyilvántartani.*
