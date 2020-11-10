@@ -32,7 +32,7 @@
   - munkaidonyilvantartas (id, felhasznalo_id, datum, kezdete, vege, ellenorzott)
   - hirdetmenyek (id, iro_felhasznalo_id, cim, leiras, vege) - (vezető/admin írhat)
   - telephelyek (id, nev, hely)
-  - uzenetek (id, iro_felhasznalo_id, cim_felhasznalo_id, cim, uzenet)
+  - uzenetek (id, iro_felhasznalo_id, cim_felhasznalo_id, cim, uzenet, latta)
   - munkahely (felhasznalo_id, telephely_id)
   - felhasznalok (id, nev, email, jelszo, beosztas)
 - Relációk:
@@ -80,7 +80,7 @@
            - controllers - Kontroller osztályok csomag
            - entities - Entitás osztályok csomag
            - repositories - Tároló osztályok csomag
-           - security - Biztonsági olsztályok csomag
+           - security - Biztonsági osztályok csomag
      - resources - Kiegésztő fájlok
    - test
      - java - Teszt osztályok csomag
@@ -105,10 +105,11 @@
    - `POST /site` - Új telephely felvétele
    - `POST /site/{id}/add` - Felhasználó hozzáadása telephelyhez
    - `POST /users` - Regisztráció
+   - `POST /users/login` - Bejelentkezés
    - `GET /wt` - Munkaidők kilistázása
    - `GET /wt/{id}` - Az adott indexű munkaidő megtekintése
    - `POST /wt` - Új munkaidő létrehozása
    - `DELETE /wt/{id}` - Az adott indexű munkaidő törlése
  - Végpont bemutatása (`GET /holiday`)
-   - A felhasználó egy GET kérést küld a /holiday végpontra, amennyiben érvényes tokent is tartalmaz, a szerver válaszul visszaküldi a felhasználó által látható
+   - A felhasználó egy GET kérést küld a /holiday végpontra, amennyiben érvényes tokent is tartalmaz, a szerver válaszul visszaküldi a felhasználó által igényelt szabadnapokat.
    - [Szekvencia diagram](https://ikelte-my.sharepoint.com/:i:/g/personal/w57a8i_inf_elte_hu/EcNqE9jsfohNqvC0FQJ0j2kB9A4AaQVJRDZOYluxeDszsw?e=WEjYWg)
