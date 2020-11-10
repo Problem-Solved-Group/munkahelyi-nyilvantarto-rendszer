@@ -43,4 +43,7 @@ public class Message {
     @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime created_at;
+    
+    @Column
+    private LocalDateTime seen_at;
 }
