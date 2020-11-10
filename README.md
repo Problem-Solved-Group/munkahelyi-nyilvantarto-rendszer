@@ -71,7 +71,7 @@
    - Netbeans IDE
    - IntelliJ IDE
  - Adatbázis terv:
-   - [Kapcsolati diagram](https://ikelte-my.sharepoint.com/:i:/g/personal/w57a8i_inf_elte_hu/EbEyf44Z71NKtbv8vnsiapEBsuyNNcevoQZvUHEIq_twAA?e=lePIqC)
+   - [Kapcsolati diagram](https://dbdiagram.io/d/5faa9bd63a78976d7b7b4bcd)
  - Alkalmazott könyvtárstruktúra:
    - main
      - java
