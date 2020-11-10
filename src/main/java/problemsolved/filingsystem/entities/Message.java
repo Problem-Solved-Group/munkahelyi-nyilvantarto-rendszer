@@ -1,6 +1,7 @@
 
 package problemsolved.filingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,10 +32,11 @@ public class Message {
     @Column(nullable = false)
     private String message;
     
-    
+    @JsonIgnore
     @ManyToOne
     private User sender;
     
+    @JsonIgnore
     @ManyToOne
     private User receiver;
     

@@ -1,5 +1,6 @@
 package problemsolved.filingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,15 +22,16 @@ public class WorkingTime {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     
     @ManyToOne
+    @JsonIgnore
     private User user;
     
     @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime created_at;
-
+    
     @Column
     @UpdateTimestamp
     private LocalDateTime updated_at;
