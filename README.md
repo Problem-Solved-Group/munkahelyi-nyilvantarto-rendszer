@@ -64,3 +64,51 @@
 ### Fejlesztők
   - Nagy Viktor
   - Jobbágyi Dominik
+
+
+## Backend
+ - Fejlesztői környezet:
+   - Netbeans IDE
+   - IntelliJ IDE
+ - Adatbázis terv:
+   - [Kapcsolati diagram](https://dbdiagram.io/d/5faa9bd63a78976d7b7b4bcd)
+ - Alkalmazott könyvtárstruktúra:
+   - main
+     - java
+       - problemsolved
+         - filingsystem
+           - controllers - Kontroller osztályok csomag
+           - entities - Entitás osztályok csomag
+           - repositories - Tároló osztályok csomag
+           - security - Biztonsági olsztályok csomag
+     - resources - Kiegésztő fájlok
+   - test
+     - java - Teszt osztályok csomag
+     - resources - Kiegészítő fájlok
+ - Végpont tervek és leírásuk:
+   - `GET /` - Hirdetmenyek listázása
+   - `GET /announcements/{id}` - Az adott indexű hirdetmény megtekintése
+   - `POST /announcements` - Új hirdetmeny létrehozása
+   - `PUT /announcements/{id}` - Az adott indexű hirdetmény módosítása 
+   - `DELETE /announcements/{id}` - Az adott indexű hirdetmény törlése
+   - `GET /holiday` - Szabadságigények listázása
+   - `GET /holiday/{id}` - Az adott indexű szabadságigény megtekintése
+   - `POST /holiday` - Új szabadségigény létrehozása
+   - `PUT /holiday/{id}` - Az adott indexű szabadságigény módosítása
+   - `DELETE /holiday/{id}` - Az adott indexű szabadságigény törlése
+   - `GET /messages/sent` - Az elküldött üzenetek
+   - `GET /messages/received` - A fogadott üzenetek
+   - `POST /messages` - Új üzenet létrehozása
+   - `DELETE /messages/{id}` - Küldött üzenet törlése
+   - `GET /site` - Telephelyek listázása
+   - `GET /site/{id}` - Az adott indexű telephely megtekintése
+   - `POST /site` - Új telephely felvétele
+   - `POST /site/{id}/add` - Felhasználó hozzáadása telephelyhez
+   - `POST /users` - Regisztráció
+   - `GET /wt` - Munkaidők kilistázása
+   - `GET /wt/{id}` - Az adott indexű munkaidő megtekintése
+   - `POST /wt` - Új munkaidő létrehozása
+   - `DELETE /wt/{id}` - Az adott indexű munkaidő törlése
+ - Végpont bemutatása (`GET /holiday`)
+   - A felhasználó egy GET kérést küld a /holiday végpontra, amennyiben érvényes tokent is tartalmaz, a szerver válaszul visszaküldi a felhasználó által látható
+   - [Szekvencia diagram](https://ikelte-my.sharepoint.com/:i:/g/personal/w57a8i_inf_elte_hu/EcNqE9jsfohNqvC0FQJ0j2kB9A4AaQVJRDZOYluxeDszsw?e=WEjYWg)
