@@ -3,8 +3,6 @@ package problemsolved.filingsystem.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
