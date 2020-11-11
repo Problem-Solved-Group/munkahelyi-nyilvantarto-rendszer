@@ -3,8 +3,6 @@ package problemsolved.filingsystem.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,14 +27,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     
     private static final String COOKIE_NAME = "token";
 
-    private static final int EXPIRATION =  30 * 60 * 1000;
+    private static final int EXPIRATION =  60 * 60 * 1000;
     
     private String secret;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, String secret) {
         this.authenticationManager = authenticationManager;
         this.secret = secret;
-        setFilterProcessesUrl("/users/login"); 
+        setFilterProcessesUrl("/users/login");
+        
     }
 
     @Override
@@ -80,7 +79,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         Cookie cookie = new Cookie(COOKIE_NAME, token);
         cookie.setMaxAge(EXPIRATION);
-        cookie.setPath("/api");
+        cookie.setPath("/users/api");
         cookie.setHttpOnly(true);
         res.addCookie(cookie);
 

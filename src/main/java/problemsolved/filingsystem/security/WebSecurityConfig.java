@@ -19,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -45,14 +46,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String secret = environment.getProperty(SECRET_PROPERTY_NAME);
         http    
             // .authorizeRequests().anyRequest().permitAll();
+                
                 .cors().and()
                 .csrf().disable()
                 .headers()
                     .frameOptions().disable()
                     .and()
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                    .antMatchers(HttpMethod.POST, "/users").permitAll()
+                    .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                     .antMatchers("/h2/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
@@ -60,7 +61,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 // //                    .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), secret))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), secret))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/users/logout"))
+                    .deleteCookies("token");
                 
     }
 
