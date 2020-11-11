@@ -39,10 +39,8 @@ public class User {
     private String email;
     
     public enum Role {
-        WORKER, LEADER, ADMIN
+        ROLE_WORKER, ROLE_LEADER, ROLE_ADMIN
     }
-    
-    
     
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
