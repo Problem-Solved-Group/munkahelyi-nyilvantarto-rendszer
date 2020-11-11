@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,7 +54,7 @@ public class AnnouncementController {
         }
     }
     
-    @Secured({"LEADER", "ADMIN"})
+    @Secured({"ROLE_LEADER","ROLE_ADMIN"})
     @PostMapping("/announcements")
     public ResponseEntity<Announcement> insert(@RequestBody Announcement request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -61,7 +62,7 @@ public class AnnouncementController {
         request.setUser(user.get());
         return ResponseEntity.ok(announcementRepository.save(request));
     }
-    @Secured({"LEADER","ADMIN"})
+    @Secured({"ROLE_LEADER","ROLE_ADMIN"})
     @PutMapping("/announcements/{id}")
     public ResponseEntity<Announcement> update(@PathVariable Integer id, @RequestBody Announcement request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -69,17 +70,21 @@ public class AnnouncementController {
         Optional<Announcement> oRequest = announcementRepository.findById(id);
         if (oRequest.isPresent() && user.isPresent() && user.get().getAnnouncements().contains(oRequest.get())) {
             request.setId(id);
+            request.setUser(oRequest.get().getUser());
             return ResponseEntity.ok(announcementRepository.save(request));
         } else {
             return ResponseEntity.notFound().build();
         }
     }
     
-    @Secured({"LEADER", "ADMIN"})
-    @DeleteMapping("/announcemens/{id}")
-    public ResponseEntity<HolidayRequest> delete(@PathVariable Integer id) {
+    @Secured({"ROLE_LEADER","ROLE_ADMIN"})
+    @DeleteMapping("/announcements/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user = userRepository.findByUsername(auth.getName());
+        User.Role role = user.get().getRole();
         Optional<Announcement> oAnn = announcementRepository.findById(id);
-        if (oAnn.isPresent()) {
+        if (oAnn.isPresent() && (role == User.Role.ROLE_ADMIN || (role == User.Role.ROLE_LEADER && user.get().getId() == oAnn.get().getUser().getId()))) {
             announcementRepository.deleteById(id);
             return ResponseEntity.ok().build();
         } else {

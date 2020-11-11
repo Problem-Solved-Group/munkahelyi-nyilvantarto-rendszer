@@ -72,7 +72,7 @@ public class MessageController {
     }
     
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Message> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<Message> oRequest = messageRepository.findById(id);

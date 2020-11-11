@@ -73,6 +73,7 @@ public class HolidayRequestController {
         Optional<HolidayRequest> oRequest = holidayRepository.findById(id);
         if (oRequest.isPresent() && user.isPresent() && user.get().getHolidayRequests().contains(oRequest.get())) {
             request.setId(id);
+            request.setStatus(HolidayRequest.Status.UNSEEN);
             return ResponseEntity.ok(holidayRepository.save(request));
         } else {
             return ResponseEntity.notFound().build();
@@ -80,7 +81,7 @@ public class HolidayRequestController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<HolidayRequest> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<HolidayRequest> oRequest = holidayRepository.findById(id);

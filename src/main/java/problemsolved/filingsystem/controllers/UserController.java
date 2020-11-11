@@ -24,7 +24,7 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity<User> register(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(User.Role.WORKER);
+        user.setRole(User.Role.ROLE_WORKER);
         userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
