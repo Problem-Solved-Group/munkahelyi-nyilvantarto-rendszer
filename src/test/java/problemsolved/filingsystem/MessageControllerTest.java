@@ -152,7 +152,7 @@ public class MessageControllerTest {
         MessageRequest message = new MessageRequest();
         message.setTitle("Title");
         message.setMessage("Message");
-        message.setReceiver("admin");//WORKER
+        message.setReceiver("worker");
         
         String json = DEFAULT_OBJECT_WRITER.writeValueAsString(message);
         HttpEntity<String> requestEntity = new HttpEntity<String>(json, headers);

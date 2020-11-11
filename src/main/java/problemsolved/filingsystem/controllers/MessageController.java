@@ -1,6 +1,7 @@
 package problemsolved.filingsystem.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import problemsolved.filingsystem.entities.Message;
 import problemsolved.filingsystem.entities.MessageRequest;
 import problemsolved.filingsystem.entities.User;
+import problemsolved.filingsystem.entities.TmpMessage;
 import problemsolved.filingsystem.repositories.MessageRepository;
 import problemsolved.filingsystem.repositories.UserRepository;
 
@@ -50,6 +54,7 @@ public class MessageController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         if (user.isPresent()) {
+            System.out.println(messageRepository.findById(1).get().getReceiver());
             return ResponseEntity.ok(user.get().getSentMessages());
         } else {
             return ResponseEntity.notFound().build();
