@@ -52,20 +52,21 @@ public class SiteController {
         return ResponseEntity.status(403).build();
     }
     
+    @Secured("ROLE_ADMIN")
     @PostMapping("")
     public ResponseEntity<Site> post(@RequestBody Site site) {
         Optional<User> user = getUser();
-        if (user.isPresent() && user.get().getRole() == User.Role.ADMIN) {
+        if (user.isPresent()) {
             return ResponseEntity.ok(siteRepository.save(site));
         }
         return ResponseEntity.notFound().build();
     }
     
-    
+    @Secured("ROLE_ADMIN")
     @PostMapping("/{id}/add")
     public ResponseEntity<Site> post(@PathVariable Integer id , @RequestParam("userid") Integer userid) {
         Optional<User> user = getUser();
-        if (user.isPresent() && user.get().getRole() == User.Role.ADMIN) {
+        if (user.isPresent()) {
             Optional<User> reqUser = userRepository.findById(userid);
             Optional<Site> reqSite = siteRepository.findById(id);
             if(reqUser.isPresent() && reqSite.isPresent()){

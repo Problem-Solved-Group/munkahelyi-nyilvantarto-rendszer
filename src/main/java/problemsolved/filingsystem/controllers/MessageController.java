@@ -30,7 +30,14 @@ public class MessageController {
     
     @PostMapping("")
     public ResponseEntity<Message> insert(@RequestBody Message request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> sender = userRepository.findByUsername(auth.getName());
+        if (sender.isPresent()) {
+            
             return ResponseEntity.ok(messageRepository.save(request));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
     
     @GetMapping("/sent")
@@ -56,7 +63,7 @@ public class MessageController {
     }
     
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Message> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<Message> oRequest = messageRepository.findById(id);
