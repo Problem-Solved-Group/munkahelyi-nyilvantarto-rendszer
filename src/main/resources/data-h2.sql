@@ -1,8 +1,8 @@
-INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$2a$10$TENUJbNC03RkEuwd8.eki.M1XLW2oRFGI2hogHJXjJUwS9p7PB1N.', 'admin@admin.hu', 'ADMIN');
+INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$2a$10$TENUJbNC03RkEuwd8.eki.M1XLW2oRFGI2hogHJXjJUwS9p7PB1N.', 'admin@admin.hu', 'ROLE_ADMIN');
 -- admin : admin
-INSERT INTO user(name,username,password,email, role) VALUES ('Worker','worker','$2a$10$bUxp2G.lgDOE3jxA9sCOjuwbaMgwXCXQleAIrqmz.nqBW9DNYxJwO', 'worker@worker.hu', 'WORKER');
+INSERT INTO user(name,username,password,email, role) VALUES ('Worker','worker','$2a$10$bUxp2G.lgDOE3jxA9sCOjuwbaMgwXCXQleAIrqmz.nqBW9DNYxJwO', 'worker@worker.hu', 'ROLE_WORKER');
 -- worker : worker
-INSERT INTO user(name,username,password,email, role) VALUES ('Leader','leader','$2a$10$nAe0KiTtNTpHKBcYrobrN.yr/NHRorb5mwxw9lAbUUqTAfLNNEBcC', 'leader@leader.hu', 'LEADER');
+INSERT INTO user(name,username,password,email, role) VALUES ('Leader','leader','$2a$10$nAe0KiTtNTpHKBcYrobrN.yr/NHRorb5mwxw9lAbUUqTAfLNNEBcC', 'leader@leader.hu', 'ROLE_LEADER');
 --leader : leader
 
 INSERT INTO site(name,location) VALUES ('HQ','1023,Budapest Tök utca 12.');

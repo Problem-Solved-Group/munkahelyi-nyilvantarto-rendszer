@@ -22,7 +22,7 @@ public class UserController {
     private UserRepository userRepository;
     
     @PostMapping("")
-    public ResponseEntity<User> register(@RequestBody User user) {
+    public ResponseEntity<Void> register(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(User.Role.ROLE_WORKER);
         userRepository.save(user);

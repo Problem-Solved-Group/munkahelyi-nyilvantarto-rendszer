@@ -1,7 +1,11 @@
 package problemsolved.filingsystem.controllers;
 
-import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import java.util.Optional;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -12,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import problemsolved.filingsystem.entities.Site;
 import problemsolved.filingsystem.entities.User;
@@ -34,7 +37,7 @@ public class SiteController {
         if (user.isPresent()) {
             return ResponseEntity.ok(siteRepository.findAll());
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).build();
     }
     
     @GetMapping("/{id}")
@@ -64,21 +67,20 @@ public class SiteController {
     
     @Secured("ROLE_ADMIN")
     @PostMapping("/{id}/add")
-    public ResponseEntity<Site> post(@PathVariable Integer id , @RequestParam("userid") Integer userid) {
-        Optional<User> user = getUser();
-        if (user.isPresent()) {
-            Optional<User> reqUser = userRepository.findById(userid);
-            Optional<Site> reqSite = siteRepository.findById(id);
-            if(reqUser.isPresent() && reqSite.isPresent()){
-                reqUser.get().getSites().add(reqSite.get());
-                userRepository.save(reqUser.get());
-                return ResponseEntity.ok(reqSite.get());
-            }
-            else{
-                return ResponseEntity.notFound().build();
-            }
+    public ResponseEntity<Site> post(@PathVariable Integer id , @RequestBody String json){
+        System.out.println(json);
+        JSONObject obj = new JSONObject(json);
+        Optional<User> reqUser = userRepository.findByUsername(obj.getString("username"));
+        Optional<Site> reqSite = siteRepository.findById(id);
+        if(reqUser.isPresent() && reqSite.isPresent() && !reqUser.get().getSites().contains(reqSite.get())){
+            System.out.println("User is: " + reqUser.get().getName() );
+            reqUser.get().getSites().add(reqSite.get());
+            userRepository.save(reqUser.get());
+            return ResponseEntity.ok(reqSite.get());
         }
-        return ResponseEntity.status(403).build();
+        else{
+            return ResponseEntity.badRequest().build();
+        }
     }
     
     

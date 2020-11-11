@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import problemsolved.filingsystem.entities.Message;
+import problemsolved.filingsystem.entities.MessageRequest;
 import problemsolved.filingsystem.entities.User;
 import problemsolved.filingsystem.repositories.MessageRepository;
 import problemsolved.filingsystem.repositories.UserRepository;
@@ -29,15 +30,19 @@ public class MessageController {
     private UserRepository userRepository;
     
     @PostMapping("")
-    public ResponseEntity<Message> insert(@RequestBody Message request) {
+    public ResponseEntity<Message> insert(@RequestBody MessageRequest m) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> sender = userRepository.findByUsername(auth.getName());
-        if (sender.isPresent()) {
-            
-            return ResponseEntity.ok(messageRepository.save(request));
-        } else {
-            return ResponseEntity.notFound().build();
+        Optional<User> user = userRepository.findByUsername(auth.getName());
+        Optional<User>oReceiver = userRepository.findByUsername(m.getReceiver());
+        if(user.isPresent() && oReceiver.isPresent()) {
+            Message msg = new Message();
+            msg.setTitle(m.getTitle());
+            msg.setMessage(m.getMessage());
+            msg.setSender(user.get());
+            msg.setReceiver(oReceiver.get());
+            return ResponseEntity.ok(messageRepository.save(msg));
         }
+        return ResponseEntity.notFound().build();
     }
     
     @GetMapping("/sent")
