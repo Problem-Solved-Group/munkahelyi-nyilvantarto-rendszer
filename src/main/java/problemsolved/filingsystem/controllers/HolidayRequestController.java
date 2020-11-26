@@ -72,9 +72,8 @@ public class HolidayRequestController {
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<HolidayRequest> oRequest = holidayRepository.findById(id);
         if (oRequest.isPresent() && user.isPresent() && user.get().getHolidayRequests().contains(oRequest.get())) {
-            request.setId(id);
-            request.setStatus(HolidayRequest.Status.UNSEEN);
-            return ResponseEntity.ok(holidayRepository.save(request));
+            oRequest.get().setRequestedDay(request.getRequestedDay());
+            return ResponseEntity.ok(holidayRepository.save(oRequest.get()));
         } else {
             return ResponseEntity.notFound().build();
         }

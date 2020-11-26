@@ -894,3 +894,21 @@ INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$
 2020-11-10 01:00:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER" not found; SQL statement:
 INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$2a$10$TENUJbNC03RkEuwd8.eki.M1XLW2oRFGI2hogHJXjJUwS9p7PB1N.', 'admin@admin.hu', 'ADMIN') [42102-200]
+2020-11-11 16:16:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER" not found; SQL statement:
+INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$2a$10$TENUJbNC03RkEuwd8.eki.M1XLW2oRFGI2hogHJXjJUwS9p7PB1N.', 'admin@admin.hu', 'ROLE_ADMIN') [42102-200]
+2020-11-11 16:20:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER" not found; SQL statement:
+INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$2a$10$TENUJbNC03RkEuwd8.eki.M1XLW2oRFGI2hogHJXjJUwS9p7PB1N.', 'admin@admin.hu', 'ROLE_ADMIN') [42102-200]
+2020-11-11 16:41:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER" not found; SQL statement:
+INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$2a$10$TENUJbNC03RkEuwd8.eki.M1XLW2oRFGI2hogHJXjJUwS9p7PB1N.', 'admin@admin.hu', 'ROLE_ADMIN') [42102-200]
+2020-11-11 18:48:48 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROMUSER_SITES[*]"; SQL statement:
+SELECT * FROMUSER_SITES [42000-200]
+2020-11-11 18:50:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER" not found; SQL statement:
+INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$2a$10$TENUJbNC03RkEuwd8.eki.M1XLW2oRFGI2hogHJXjJUwS9p7PB1N.', 'admin@admin.hu', 'ROLE_ADMIN') [42102-200]
+2020-11-11 21:15:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER" not found; SQL statement:
+INSERT INTO user(name,username,password,email, role) VALUES ('Admin', 'admin','$2a$10$TENUJbNC03RkEuwd8.eki.M1XLW2oRFGI2hogHJXjJUwS9p7PB1N.', 'admin@admin.hu', 'ROLE_ADMIN') [42102-200]

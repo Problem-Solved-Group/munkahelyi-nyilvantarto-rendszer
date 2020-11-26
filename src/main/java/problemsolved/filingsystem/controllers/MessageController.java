@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import problemsolved.filingsystem.entities.Message;
+import problemsolved.filingsystem.entities.MessageRequest;
 import problemsolved.filingsystem.entities.User;
-import problemsolved.filingsystem.entities.TmpMessage;
 import problemsolved.filingsystem.repositories.MessageRepository;
 import problemsolved.filingsystem.repositories.UserRepository;
 
@@ -33,14 +31,14 @@ public class MessageController {
     private UserRepository userRepository;
     
     @PostMapping("")
-    public ResponseEntity<Message> insert(@RequestBody TmpMessage m) {        
+    public ResponseEntity<Message> insert(@RequestBody MessageRequest m) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
-        Optional<User>oReceiver = userRepository.findByUsername(m.getMessage_receiver());
+        Optional<User>oReceiver = userRepository.findByUsername(m.getReceiver());
         if(user.isPresent() && oReceiver.isPresent()) {
             Message msg = new Message();
-            msg.setTitle(m.getMessage_title());
-            msg.setMessage(m.getMessage_message());
+            msg.setTitle(m.getTitle());
+            msg.setMessage(m.getMessage());
             msg.setSender(user.get());
             msg.setReceiver(oReceiver.get());
             return ResponseEntity.ok(messageRepository.save(msg));
@@ -53,7 +51,6 @@ public class MessageController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         if (user.isPresent()) {
-            System.out.println(messageRepository.findById(1).get().getReceiver());
             return ResponseEntity.ok(user.get().getSentMessages());
         } else {
             return ResponseEntity.notFound().build();

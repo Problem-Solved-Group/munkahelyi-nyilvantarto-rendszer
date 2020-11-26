@@ -38,9 +38,6 @@ public class AnnouncementControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
     
-    @Autowired
-    private UserRepository userRepository;
-    
     private final static ObjectWriter DEFAULT_OBJECT_WRITER = new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -84,7 +81,7 @@ public class AnnouncementControllerTest {
     
     @Test
     @Order(2)
-    public void shouldReturnSpecificAnnouncement() throws Exception {
+    public void shouldReturnAnnouncementById() throws Exception {
         System.out.println("Announcement -- Test 2");
         HttpEntity requestEntity = getRequestEntityForUser("worker", "worker");
         ResponseEntity<Announcement> response = restTemplate.exchange(

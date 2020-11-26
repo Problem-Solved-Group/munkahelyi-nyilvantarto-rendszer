@@ -22,22 +22,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.http.HttpStatus;
 import problemsolved.filingsystem.entities.Message;
+import problemsolved.filingsystem.entities.MessageRequest;
 import problemsolved.filingsystem.entities.User;
 import problemsolved.filingsystem.repositories.UserRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MessageControllerTest {
     @LocalServerPort
     private int port;
     
     @Autowired
     private TestRestTemplate restTemplate;
-    
-    @Autowired
-    private UserRepository userRepository;
     
     private final static ObjectWriter DEFAULT_OBJECT_WRITER = new ObjectMapper()
                 .registerModule(new JavaTimeModule())
@@ -66,6 +68,7 @@ public class MessageControllerTest {
     
     
     @Test
+    @Order(1)
     public void userShouldGetSentMessages() throws Exception {
         System.out.println("Messages -- Test 1");
         HttpEntity adminRequestEntity = getRequestEntityForUser("admin", "admin");
@@ -89,6 +92,7 @@ public class MessageControllerTest {
     }
     
     @Test
+    @Order(2)
     public void userShouldGetReceivedMessages() throws Exception {
         System.out.println("Messages -- Test 2");
         HttpEntity adminRequestEntity = getRequestEntityForUser("admin", "admin");
@@ -112,6 +116,7 @@ public class MessageControllerTest {
     }
     
     @Test
+    @Order(3)
     public void messageSenderShouldDeleteTheMessage() throws Exception {
         System.out.println("Messages -- Test 3");
         HttpEntity adminRequestEntity = getRequestEntityForUser("admin", "admin");
@@ -135,6 +140,7 @@ public class MessageControllerTest {
     }
     
     @Test
+    @Order(4)
     public void userShouldBeAbleToSendMessage() throws Exception{
         System.out.println("Messages -- Test 4");
         /* LOG USER IN AND SETUP HTTP HEADER*/
@@ -143,15 +149,12 @@ public class MessageControllerTest {
         headers.add("Content-Type", "application/json");
         headers.add("Authorization", "Bearer " + token);
         /* LOG USER IN AND SETUP HTTP HEADER*/
-        System.out.println("User is: " + userRepository.findById(2).get().getUsername());
-        Message message = new Message();
+        MessageRequest message = new MessageRequest();
         message.setTitle("Title");
         message.setMessage("Message");
-        message.setSender(userRepository.findById(1).get());//ADMIN
-        message.setReceiver(userRepository.findById(2).get());//WORKER
+        message.setReceiver("worker");
         
         String json = DEFAULT_OBJECT_WRITER.writeValueAsString(message);
-        System.out.println("Json is: " + json);
         HttpEntity<String> requestEntity = new HttpEntity<String>(json, headers);
         
         ResponseEntity<Message> response = restTemplate.exchange(

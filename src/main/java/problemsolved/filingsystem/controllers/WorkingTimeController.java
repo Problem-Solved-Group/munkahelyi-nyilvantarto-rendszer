@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import problemsolved.filingsystem.entities.WorkingTime;
@@ -41,7 +42,7 @@ public class WorkingTimeController {
     public ResponseEntity<WorkingTime> get(@PathVariable Integer id) {
         Optional<User> user = getUser();
         if (user.isPresent()) {
-            Optional<WorkingTime> workingTime = user.get().getWorkingTimes().stream().filter(wt -> Objects.equals(wt.getId(), id)).findFirst();
+            Optional<WorkingTime> workingTime = user.get().getWorkingTimes().stream().filter(wt -> wt.getId() == id).findFirst();
             if(workingTime.isPresent()){
                 return ResponseEntity.ok(workingTime.get());
             }
@@ -53,7 +54,7 @@ public class WorkingTimeController {
     }
     
     @PostMapping("")
-    public ResponseEntity<WorkingTime> post(@PathVariable WorkingTime wt) {
+    public ResponseEntity<WorkingTime> post(@RequestBody WorkingTime wt) {
         Optional<User> user = getUser();
         if (user.isPresent()) {
             wt.setUser(user.get());

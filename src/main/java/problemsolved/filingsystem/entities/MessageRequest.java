@@ -1,4 +1,3 @@
-
 package problemsolved.filingsystem.entities;
 
 import javax.persistence.Entity;
@@ -15,15 +14,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class TmpMessage {
-    
+public class MessageRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
-    private String message_title;
-    
-    private String message_message;
-    
-    private String message_receiver;
+
+    private String title;
+
+    private String message;
+
+    private String receiver;
 }
