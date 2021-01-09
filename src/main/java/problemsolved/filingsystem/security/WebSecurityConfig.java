@@ -34,18 +34,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private Environment environment;
     
-//    private static void handleException(HttpServletRequest req, HttpServletResponse rsp, AuthenticationException e)
-//    throws IOException {
-//        PrintWriter writer = rsp.getWriter();
-//        writer.println(new ObjectMapper().writeValueAsString("Unauthorized"));
-//        rsp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//    }
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         String secret = environment.getProperty(SECRET_PROPERTY_NAME);
         http    
-            // .authorizeRequests().anyRequest().permitAll();
                 
                 .cors().and()
                 .csrf().disable()
@@ -57,8 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/h2/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
-// //                .exceptionHandling().authenticationEntryPoint(WebSecurityConfig::handleException)
-// //                    .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), secret))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), secret))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -69,15 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 
     }
 
-//    @Autowired
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("user")
-////                .password(passwordEncoder().encode("user"))
-//                .password("{noop}user")
-//                .authorities("ROLE_USER");
-//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -94,11 +76,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .passwordEncoder(passwordEncoder());
     }
     
-    // @Bean
-    // CorsConfigurationSource corsConfigurationSource() {
-    //   final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //   source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-    //   return source;
-    // }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+      final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+      source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+      return source;
+    }
 
 }

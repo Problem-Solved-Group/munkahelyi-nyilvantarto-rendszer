@@ -1,7 +1,10 @@
 
 package problemsolved.filingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +23,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Message {
+public class Message implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +35,9 @@ public class Message {
     @Column(nullable = false)
     private String message;
     
-    @JsonIgnore
     @ManyToOne
     private User sender;
     
-    @JsonIgnore
     @ManyToOne
     private User receiver;
     

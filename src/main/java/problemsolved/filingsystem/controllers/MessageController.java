@@ -1,13 +1,15 @@
 package problemsolved.filingsystem.controllers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,17 +70,17 @@ public class MessageController {
         }
     }
     
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    @PostMapping("/{id}/seen")
+    public ResponseEntity<Void> setSeen(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
-        Optional<Message> oRequest = messageRepository.findById(id);
-        if (oRequest.isPresent() && user.isPresent() && user.get().getSentMessages().contains(oRequest.get())) {
-            messageRepository.deleteById(id);
+        Optional<Message> message = messageRepository.findById(id);
+        if (user.isPresent() && message.isPresent() && Objects.equals(user.get(), message.get().getReceiver()) ) {
+            message.get().setSeen_at(LocalDateTime.now());
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
     }
+    
 }

@@ -1,5 +1,10 @@
 package problemsolved.filingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,12 +20,14 @@ import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,17 +59,22 @@ public class User {
     private List<Site> sites;
     
     @OneToMany(mappedBy = "sender")
+    @JsonIgnore
     private List<Message> sentMessages;
     
     @OneToMany(mappedBy = "receiver")
+    @JsonIgnore
     private List<Message> receivedMessages;
     
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<HolidayRequest> holidayRequests;
     
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Announcement> announcements;
     
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<WorkingTime> workingTimes;
 }

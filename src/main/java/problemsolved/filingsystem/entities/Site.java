@@ -28,9 +28,8 @@ public class Site {
     
     @Column(nullable = false)
     private String location;
-    
-    
-    @JsonIgnore
+
     @ManyToMany(mappedBy="sites" , fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<User> users;
 }

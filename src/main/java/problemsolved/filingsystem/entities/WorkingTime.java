@@ -25,7 +25,6 @@ public class WorkingTime {
     private int id;
     
     @ManyToOne
-    @JsonIgnore
     private User user;
     
     @Column(updatable = false)
