@@ -114,33 +114,10 @@ public class MessageControllerTest {
         assertFalse(adminResponse.getBody().isEmpty());
         assertTrue(workerResponse.getBody().isEmpty());
     }
+   
     
     @Test
     @Order(3)
-    public void messageSenderShouldDeleteTheMessage() throws Exception {
-        System.out.println("Messages -- Test 3");
-        HttpEntity adminRequestEntity = getRequestEntityForUser("admin", "admin");
-        
-        ResponseEntity<Void> adminDeleteResponse = restTemplate.exchange(
-                "http://localhost:" + port + "/messages/delete/1",
-                HttpMethod.DELETE,
-                adminRequestEntity,
-                new ParameterizedTypeReference<Void>() {}
-        );
-        
-        ResponseEntity<List<Message>> adminGetResponse = restTemplate.exchange(
-                "http://localhost:" + port + "/messages/sent",
-                HttpMethod.GET,
-                adminRequestEntity,
-                new ParameterizedTypeReference<List<Message>>() {}
-        );
-        
-        assertEquals(HttpStatus.OK, adminDeleteResponse.getStatusCode() , "Delete of ID 1 message should be successful!");
-        assertTrue(adminGetResponse.getBody().isEmpty(),"Admin should have 0 sent message!");
-    }
-    
-    @Test
-    @Order(4)
     public void userShouldBeAbleToSendMessage() throws Exception{
         System.out.println("Messages -- Test 4");
         /* LOG USER IN AND SETUP HTTP HEADER*/
