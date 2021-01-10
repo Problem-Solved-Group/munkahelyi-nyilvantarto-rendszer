@@ -24,7 +24,7 @@ import problemsolved.filingsystem.entities.User;
 
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/announcements")
 public class AnnouncementController {
     
     @Autowired
@@ -44,7 +44,7 @@ public class AnnouncementController {
         return ResponseEntity.notFound().build();
     }
     
-    @GetMapping("/announcements/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Announcement> get(@PathVariable Integer id) {
         Optional<Announcement> oAnn = announcementRepository.findById(id);
         if (oAnn.isPresent()) {
@@ -55,7 +55,7 @@ public class AnnouncementController {
     }
     
     @Secured({"ROLE_LEADER","ROLE_ADMIN"})
-    @PostMapping("/announcements")
+    @PostMapping("")
     public ResponseEntity<Announcement> insert(@RequestBody Announcement request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
@@ -63,7 +63,7 @@ public class AnnouncementController {
         return ResponseEntity.ok(announcementRepository.save(request));
     }
     @Secured({"ROLE_LEADER","ROLE_ADMIN"})
-    @PutMapping("/announcements/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Announcement> update(@PathVariable Integer id, @RequestBody Announcement request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
@@ -78,7 +78,7 @@ public class AnnouncementController {
     }
     
     @Secured({"ROLE_LEADER","ROLE_ADMIN"})
-    @DeleteMapping("/announcements/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
