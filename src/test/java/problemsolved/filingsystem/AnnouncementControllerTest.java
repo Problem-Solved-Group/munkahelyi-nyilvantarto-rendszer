@@ -70,7 +70,7 @@ public class AnnouncementControllerTest {
         System.out.println("Announcement -- Test 1");
         HttpEntity requestEntity = getRequestEntityForUser("worker", "worker");
         ResponseEntity<Iterable<Announcement>> response = restTemplate.exchange(
-                "http://localhost:" + port + "/",
+                "http://localhost:" + port + "/announcements",
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<Iterable<Announcement>>() {}
