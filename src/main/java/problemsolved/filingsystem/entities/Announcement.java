@@ -24,7 +24,6 @@ public class Announcement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @JsonIgnore
     @ManyToOne
     private User user;
     
