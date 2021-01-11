@@ -71,13 +71,13 @@ public class MessageController {
     }
     
     @PostMapping("/{id}/seen")
-    public ResponseEntity<Void> setSeen(@PathVariable Integer id) {
+    public ResponseEntity<Message> setSeen(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<Message> message = messageRepository.findById(id);
         if (user.isPresent() && message.isPresent() && Objects.equals(user.get(), message.get().getReceiver()) ) {
             message.get().setSeen_at(LocalDateTime.now());
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(messageRepository.save(message.get()));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
