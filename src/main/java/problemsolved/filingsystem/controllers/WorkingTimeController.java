@@ -70,7 +70,7 @@ public class WorkingTimeController {
     
     @Secured({"ROLE_LEADER","ROLE_ADMIN"})
     @PostMapping("/{id}/validate")
-    public ResponseEntity<WorkingTime> evaluate(@PathVariable Integer id,@RequestBody Boolean decision) {
+    public ResponseEntity<WorkingTime> evaluate(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<WorkingTime> oRequest = workingTimeRepository.findById(id);
