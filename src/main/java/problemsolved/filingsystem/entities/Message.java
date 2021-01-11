@@ -48,5 +48,6 @@ public class Message implements Serializable {
     private LocalDateTime created_at;
     
     @Column
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime seen_at;
 }
