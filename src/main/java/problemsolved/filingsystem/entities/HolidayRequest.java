@@ -30,7 +30,6 @@ public class HolidayRequest {
     private Integer id;
     
     @ManyToOne
-    @JsonIgnore
     private User user;
     
     @Column(updatable = false)
