@@ -60,7 +60,7 @@ public class HolidayRequestController {
     
     @Secured({"ROLE_AD","ROLE_ADMIN"})
     @PostMapping("/getbyday")
-    public ResponseEntity<Iterable<HolidayRequest>> getByDay(@PathVariable Integer id,@RequestBody String day) {
+    public ResponseEntity<Iterable<HolidayRequest>> getByDay(@RequestBody String day) {
         LocalDate reqDay = LocalDate.parse(day);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> oUser = userRepository.findByUsername(auth.getName());
