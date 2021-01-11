@@ -23,9 +23,9 @@ INSERT INTO user_sites (users_id, sites_id) VALUES (2,4);
 INSERT INTO user_sites (users_id, sites_id) VALUES (3,2);
 
 
-INSERT INTO announcement (title, message, show_until, user_id) VALUES ('Hirdetmeny 1', 'Home office', '2020-12-31 23:59:59', 1);
-INSERT INTO announcement (title, message, show_until, user_id) VALUES ('Hirdetmeny 2', 'Kötelező maszk', '2020-12-31 23:59:59', 3);
-INSERT INTO announcement (title, message, show_until, user_id) VALUES ('Hirdetmeny 2', '1,5 méter távolság', '2020-12-31 23:59:59', 3);
+INSERT INTO announcement (title, message, show_until, user_id) VALUES ('Hirdetmeny 1', 'Home office', '2021-12-31 23:59:59', 1);
+INSERT INTO announcement (title, message, show_until, user_id) VALUES ('Hirdetmeny 2', 'Kötelező maszk', '2021-12-31 23:59:59', 3);
+INSERT INTO announcement (title, message, show_until, user_id) VALUES ('Hirdetmeny 2', '1,5 méter távolság', '2021-12-31 23:59:59', 3);
 
 INSERT INTO message (title, message, receiver_id, sender_id) VALUES ('Üzenet 1', 'Ez egy rendszer által generált tesztüzenet', 3,1);
 INSERT INTO message (title, message, receiver_id, sender_id) VALUES ('Válasz: Üzenet 1', 'Köszönöm', 1,3);
