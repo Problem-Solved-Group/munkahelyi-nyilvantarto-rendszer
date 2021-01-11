@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -58,8 +59,9 @@ public class WorkingTimeController {
     
     @Secured({"ROLE_LEADER","ROLE_ADMIN"})
     @PostMapping("/getbyday")
-    public ResponseEntity<Iterable<WorkingTime>> getByDay(@PathVariable Integer id,@RequestBody String day) {
-        LocalDate reqDay = LocalDate.parse(day);
+    public ResponseEntity<Iterable<WorkingTime>> getByDay(@RequestBody String day) {
+        JSONObject json = new JSONObject(day);
+        LocalDate reqDay = LocalDate.parse(json.getString("day"));
         Optional<User> user = getUser();
         if (user.isPresent()) {
             return ResponseEntity.ok( StreamSupport.stream(workingTimeRepository.findAll().spliterator(), false).filter(wr -> wr.getStart().toLocalDate().isEqual(reqDay)).collect(Collectors.toList()) );

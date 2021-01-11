@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import org.json.JSONObject;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,8 +61,9 @@ public class HolidayRequestController {
     
     @Secured({"ROLE_AD","ROLE_ADMIN"})
     @PostMapping("/getbyday")
-    public ResponseEntity<Iterable<HolidayRequest>> getByDay(@PathVariable Integer id,@RequestBody String day) {
-        LocalDate reqDay = LocalDate.parse(day);
+    public ResponseEntity<Iterable<HolidayRequest>> getByDay(@RequestBody String day) {
+        JSONObject json = new JSONObject(day);
+        LocalDate reqDay = LocalDate.parse(json.getString("day"));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> oUser = userRepository.findByUsername(auth.getName());
         if (oUser.isPresent()) {
@@ -85,13 +87,14 @@ public class HolidayRequestController {
     
     @Secured({"ROLE_AD","ROLE_ADMIN"})
     @PostMapping("/{id}/evaluate")
-    public ResponseEntity<HolidayRequest> evaluate(@PathVariable Integer id,@RequestBody Boolean decision) {
+    public ResponseEntity<HolidayRequest> evaluate(@PathVariable Integer id,@RequestBody String reqjson ) {
+        JSONObject json = new JSONObject(reqjson);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<HolidayRequest> oRequest = holidayRepository.findById(id);
         if(user.isPresent() && oRequest.isPresent() && oRequest.get().getStatus() == HolidayRequest.Status.UNSEEN) {
             HolidayRequest request = oRequest.get();
-            request.setStatus(decision ? HolidayRequest.Status.PERMITTED : HolidayRequest.Status.REJECTED);
+            request.setStatus(json.getBoolean("decision") ? HolidayRequest.Status.PERMITTED : HolidayRequest.Status.REJECTED);
             return ResponseEntity.ok(holidayRepository.save(request));
         }
         return ResponseEntity.notFound().build();
