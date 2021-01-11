@@ -76,7 +76,7 @@ public class MessageController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<Message> message = messageRepository.findById(id);
-        if (user.isPresent() && message.isPresent() && message.get().getSeen_at() == null && user.get().getId() == message.get().getReceiver().getId())  {
+        if (user.isPresent() && message.isPresent() && message.get().getSeen_at() == null && message.get().getReceiver().getId() == user.get().getId())  {
             message.get().setSeen_at(LocalDateTime.now());
             return ResponseEntity.ok(messageRepository.save(message.get()));
         } else {
