@@ -1,5 +1,6 @@
 package problemsolved.filingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -29,10 +30,12 @@ public class WorkingTime {
     
     @Column(updatable = false)
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created_at;
     
     @Column
     @UpdateTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updated_at;
     
     @Column(nullable = false)
