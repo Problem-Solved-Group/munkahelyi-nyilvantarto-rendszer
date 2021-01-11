@@ -155,34 +155,9 @@ public class HolidayRequestControllerTest {
         
     }
     
-    @Test
-    @Order(5)
-    public void requestShouldBeUpdated() throws Exception{
-        System.out.println("Holiday Requests -- Test 5");
-        /* LOG USER IN AND SETUP HTTP HEADER*/
-        String token = getTokenForUser("leader", "leader");
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        headers.add("Authorization", "Bearer " + token);
-        /* LOG USER IN AND SETUP HTTP HEADER*/
-        
-        HolidayRequest an = getTestHolidayRequestObject();
-        String json = DEFAULT_OBJECT_WRITER.writeValueAsString(an);
-        HttpEntity<String> requestEntity = new HttpEntity<>(json, headers);
-        
-        ResponseEntity<HolidayRequest> response = restTemplate.exchange(
-                "http://localhost:" + port + "/holiday/6",
-                HttpMethod.PUT,
-                requestEntity,
-                new ParameterizedTypeReference<HolidayRequest>() {}
-        );
-        
-        assertEquals(HttpStatus.OK, response.getStatusCode() , "Response status should be OK.");
-        assertEquals("2021-01-01",response.getBody().getRequestedDay().format(DateTimeFormatter.ISO_LOCAL_DATE), "Updated holiday request should give back the new date!");
-    }
     
     @Test
-    @Order(6)
+    @Order(5)
     public void requestShouldBeDeleted() throws Exception{
         System.out.println("Holiday Requests -- Test 6");
         HttpEntity requestEntity = getRequestEntityForUser("admin", "admin");
