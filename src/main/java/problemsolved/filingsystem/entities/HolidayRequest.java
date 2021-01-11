@@ -39,6 +39,7 @@ public class HolidayRequest {
     private LocalDateTime created_at;
     
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime requestedDay;
     
     @Column(nullable = false)

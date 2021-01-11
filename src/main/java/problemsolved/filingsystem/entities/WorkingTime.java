@@ -39,9 +39,11 @@ public class WorkingTime {
     private LocalDateTime updated_at;
     
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime start;
     
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime end;
     
     @Column(columnDefinition = "boolean default false")

@@ -1,10 +1,13 @@
 package problemsolved.filingsystem.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,6 +55,33 @@ public class WorkingTimeController {
         }
         return ResponseEntity.status(403).build();
     }
+    
+    @Secured({"ROLE_LEADER","ROLE_ADMIN"})
+    @PostMapping("/getbyday")
+    public ResponseEntity<Iterable<WorkingTime>> getByDay(@PathVariable Integer id,@RequestBody String day) {
+        LocalDate reqDay = LocalDate.parse(day);
+        Optional<User> user = getUser();
+        if (user.isPresent()) {
+            return ResponseEntity.ok( StreamSupport.stream(workingTimeRepository.findAll().spliterator(), false).filter(wr -> wr.getStart().toLocalDate().isEqual(reqDay)).collect(Collectors.toList()) );
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @Secured({"ROLE_LEADER","ROLE_ADMIN"})
+    @PostMapping("/{id}/validate")
+    public ResponseEntity<WorkingTime> evaluate(@PathVariable Integer id,@RequestBody Boolean decision) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user = userRepository.findByUsername(auth.getName());
+        Optional<WorkingTime> oRequest = workingTimeRepository.findById(id);
+        if(user.isPresent() && oRequest.isPresent() && !oRequest.get().getValidated()) {
+            WorkingTime request = oRequest.get();
+            request.setValidated(true);
+            return ResponseEntity.ok(workingTimeRepository.save(request));
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
     
     @PostMapping("")
     public ResponseEntity<WorkingTime> post(@RequestBody WorkingTime wt) {

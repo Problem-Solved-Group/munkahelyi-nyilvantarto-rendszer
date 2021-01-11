@@ -1,5 +1,7 @@
 package problemsolved.filingsystem.controllers;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,8 @@ import problemsolved.filingsystem.repositories.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,6 +58,19 @@ public class HolidayRequestController {
         }
     }
     
+    @Secured({"ROLE_AD","ROLE_ADMIN"})
+    @PostMapping("/getbyday")
+    public ResponseEntity<Iterable<HolidayRequest>> getByDay(@PathVariable Integer id,@RequestBody String day) {
+        LocalDate reqDay = LocalDate.parse(day);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> oUser = userRepository.findByUsername(auth.getName());
+        if (oUser.isPresent()) {
+            return ResponseEntity.ok(StreamSupport.stream(holidayRepository.findAll().spliterator(), false).filter(hd -> hd.getRequestedDay().toLocalDate().isEqual(reqDay)).collect(Collectors.toList()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
     @PostMapping("")
     public ResponseEntity<HolidayRequest> insert(@RequestBody HolidayRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -66,17 +83,18 @@ public class HolidayRequestController {
         return ResponseEntity.notFound().build();
     }
     
-    @PutMapping("/{id}")
-    public ResponseEntity<HolidayRequest> update(@PathVariable Integer id, @RequestBody HolidayRequest request) {
+    @Secured({"ROLE_AD","ROLE_ADMIN"})
+    @PostMapping("/{id}/evaluate")
+    public ResponseEntity<HolidayRequest> evaluate(@PathVariable Integer id,@RequestBody Boolean decision) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<HolidayRequest> oRequest = holidayRepository.findById(id);
-        if (oRequest.isPresent() && user.isPresent() && user.get().getHolidayRequests().contains(oRequest.get())) {
-            oRequest.get().setRequestedDay(request.getRequestedDay());
-            return ResponseEntity.ok(holidayRepository.save(oRequest.get()));
-        } else {
-            return ResponseEntity.notFound().build();
+        if(user.isPresent() && oRequest.isPresent() && oRequest.get().getStatus() == HolidayRequest.Status.UNSEEN) {
+            HolidayRequest request = oRequest.get();
+            request.setStatus(decision ? HolidayRequest.Status.PERMITTED : HolidayRequest.Status.REJECTED);
+            return ResponseEntity.ok(holidayRepository.save(request));
         }
+        return ResponseEntity.notFound().build();
     }
     
     @DeleteMapping("/{id}")
@@ -84,7 +102,9 @@ public class HolidayRequestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(auth.getName());
         Optional<HolidayRequest> oRequest = holidayRepository.findById(id);
-        if (oRequest.isPresent() && user.isPresent() && user.get().getHolidayRequests().contains(oRequest.get())) {
+        if (oRequest.isPresent() && user.isPresent() && 
+                user.get().getHolidayRequests().contains(oRequest.get()) && 
+                oRequest.get().getStatus() == HolidayRequest.Status.UNSEEN)  {
             holidayRepository.deleteById(id);
             return ResponseEntity.ok().build();
         } else {
