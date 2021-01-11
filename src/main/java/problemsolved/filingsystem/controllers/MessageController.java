@@ -79,6 +79,7 @@ public class MessageController {
             message.get().setSeen_at(LocalDateTime.now());
             return ResponseEntity.ok(messageRepository.save(message.get()));
         } else {
+            System.out.println("asdfasdfasdfasfasdfasfasdfasdfasdasdf");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
