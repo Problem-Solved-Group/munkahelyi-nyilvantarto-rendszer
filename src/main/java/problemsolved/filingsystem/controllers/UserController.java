@@ -1,6 +1,7 @@
 package problemsolved.filingsystem.controllers;
 
 import java.util.Optional;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public class UserController {
     
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/{id}/update")
-    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody User user) {
+    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User user) {
         Optional<User> oUser = userRepository.findById(id);
         if(oUser.isPresent()){
             User us = oUser.get();
@@ -73,8 +74,7 @@ public class UserController {
             us.setEmail(user.getEmail());
             us.setRole(user.getRole());
             us.setSites(user.getSites());
-            userRepository.save(us);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.ok(userRepository.save(us));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
