@@ -25,5 +25,7 @@
    - Ezt követően
      - Telepítsük az Angular CLI-t: npm install -g @angular/cli
      - Telepítsük a többi függőséget: npm install
+     - Amennyiben a lokális backend szervert szeretnénk használni, akkor
+       - az src/environments/environment.ts fájlban a baseUrl-t át kell írni http://localhost:8080
      - npm postinstall
    - Szerver indítása: npm start
