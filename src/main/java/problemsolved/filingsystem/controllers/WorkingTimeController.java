@@ -105,7 +105,7 @@ public class WorkingTimeController {
             WorkingTime wt = oWorkingTime.get();
             wt.setStart(reqWt.getStart());
             wt.setEnd(reqWt.getEnd());
-            return ResponseEntity.ok(workingTimeRepository.save(reqWt));
+            return ResponseEntity.ok(workingTimeRepository.save(wt));
         }
         return ResponseEntity.status(403).build();
     }
