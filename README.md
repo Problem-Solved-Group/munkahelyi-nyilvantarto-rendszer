@@ -118,3 +118,5 @@
 
 ## Frontend
  - [Frontend repo](https://github.com/Problem-Solved-Group/munkahelyi-nyilvantarto-rendszer-kliens)
+## Felhasználói dokumentáció
+ - [Dokumentáció](./user_doc.md)
