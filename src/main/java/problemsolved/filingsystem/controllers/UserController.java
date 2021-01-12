@@ -65,6 +65,8 @@ public class UserController {
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/{id}/update")
     public ResponseEntity<Void> update(@RequestParam Integer id, @RequestBody User user) {
+        System.out.println(id);
+        System.out.println(user);
         Optional<User> oUser = userRepository.findById(id);
         if(oUser.isPresent()){
             User us = oUser.get();
