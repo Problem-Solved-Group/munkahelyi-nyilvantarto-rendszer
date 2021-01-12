@@ -51,7 +51,6 @@
 ## Beosztás
 - Admin - Minden vezetői funkció és:
   - Jogosultság állítás
-  - Új felhasználó hozzáadása
 - Vezető - Minden dolgozói funcikó és:
   - Hirdetmény kiírása
   - Szabadság igény elbírálása
@@ -113,3 +112,6 @@
  - Végpont bemutatása (`GET /holiday`)
    - A felhasználó egy GET kérést küld a /holiday végpontra, amennyiben érvényes tokent is tartalmaz, a szerver válaszul visszaküldi a felhasználó által igényelt szabadnapokat.
    - [Szekvencia diagram](https://ikelte-my.sharepoint.com/:i:/g/personal/w57a8i_inf_elte_hu/EcNqE9jsfohNqvC0FQJ0j2kB9A4AaQVJRDZOYluxeDszsw?e=WEjYWg)
+
+## Frontend
+ - [Frontend repo](https://github.com/Problem-Solved-Group/munkahelyi-nyilvantarto-rendszer-kliens)
