@@ -11,9 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,6 +63,31 @@ public class SiteController {
         Optional<User> user = getUser();
         if (user.isPresent()) {
             return ResponseEntity.ok(siteRepository.save(site));
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/{id}")
+    public ResponseEntity<Site> put(@PathVariable Integer id,@RequestBody Site site) {
+        Optional<User> user = getUser();
+        Optional<Site> oSite = siteRepository.findById(id);
+        if (user.isPresent() && oSite.isPresent()) {
+            oSite.get().setName(site.getName());
+            oSite.get().setLocation(site.getLocation());
+            return ResponseEntity.ok(siteRepository.save(oSite.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Site> delete(@PathVariable Integer id) {
+        Optional<User> user = getUser();
+        Optional<Site> oSite = siteRepository.findById(id);
+        if (user.isPresent()&& oSite.isPresent()) {
+            siteRepository.deleteById(id);
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
