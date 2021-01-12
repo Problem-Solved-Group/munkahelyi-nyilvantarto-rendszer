@@ -102,7 +102,9 @@ public class WorkingTimeController {
         Optional<User> user = getUser();
         Optional<WorkingTime> oWorkingTime = workingTimeRepository.findById(id);
         if (user.isPresent() && oWorkingTime.isPresent()) {
-            reqWt.setId(id);
+            WorkingTime wt = oWorkingTime.get();
+            wt.setStart(reqWt.getStart());
+            wt.setEnd(reqWt.getEnd());
             return ResponseEntity.ok(workingTimeRepository.save(reqWt));
         }
         return ResponseEntity.status(403).build();
