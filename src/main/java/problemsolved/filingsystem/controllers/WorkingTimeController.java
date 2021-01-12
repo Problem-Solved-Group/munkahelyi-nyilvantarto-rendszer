@@ -114,7 +114,7 @@ public class WorkingTimeController {
         Optional<User> user = getUser();
         Optional<WorkingTime> oWorkingTime = workingTimeRepository.findById(id);
         if(user.isPresent()){
-            if (oWorkingTime.isPresent() && oWorkingTime.get().getUser().getUsername().equals(user.get().getUsername())) {
+            if (oWorkingTime.isPresent() && !oWorkingTime.get().getValidated() && oWorkingTime.get().getUser().getUsername().equals(user.get().getUsername())) {
                 workingTimeRepository.deleteById(id);
                 return ResponseEntity.ok().build();
             } else {
