@@ -63,7 +63,7 @@ public class UserController {
     }
     
     @Secured({"ROLE_ADMIN"})
-    @PutMapping("/id/update")
+    @PutMapping("/{id}/update")
     public ResponseEntity<Void> update(@RequestParam Integer id, @RequestBody User user) {
         Optional<User> oUser = userRepository.findById(id);
         if(oUser.isPresent()){
