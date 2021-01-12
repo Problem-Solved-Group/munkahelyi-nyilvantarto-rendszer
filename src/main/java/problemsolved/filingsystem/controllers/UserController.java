@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,9 +65,7 @@ public class UserController {
     
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/{id}/update")
-    public ResponseEntity<Void> update(@RequestParam Integer id, @RequestBody User user) {
-        System.out.println(id);
-        System.out.println(user);
+    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody User user) {
         Optional<User> oUser = userRepository.findById(id);
         if(oUser.isPresent()){
             User us = oUser.get();
