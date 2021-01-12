@@ -6,10 +6,10 @@
 ## Funkcionális követelmények
 - Szabadság nyilvántartás - nyilvántartja a dolgozók szabadságigényléseit és az elfogadott/elutasított igényléseket
   - A dolgozó új igénylést tud benyújtani/szerkeszteni/törölni a Nyilvántartások menüpontból elérhető oldalon
-  - A vezetők el tudják fogadni vagy utasítani a dolgozók igényléseit a Nyilvántartás bírálása menüpontból elérhető oldalon
+  - A Adminok el tudják fogadni vagy utasítani a dolgozók igényléseit a Nyilvántartás bírálása menüpontból elérhető oldalon
 - Munkaidő nyilvántartás - nyilvántartja a dolgozók munkahelyen töltött idejét
   - A dolgozó beírhatja az adott napra, hogy mettől meddig volt ott a Nyilvántartások menüpontból elérhető oldalon
-  - A vezetők ellenőrizhetik az adott dolgozó által megadott időt a Nyilvántartás bírálása menüpontból elérhető oldalon
+  - A Adminok ellenőrizhetik az adott dolgozó által megadott időt a Nyilvántartás bírálása menüpontból elérhető oldalon
 - Hírdetmények - A főoldalon megjelenő legújabb fontos események/változások
   - Admin/Vezető beosztású személy tud csak kiírni új hirdetményt a főoldalon, melyet mindenki láthat a főoldalon
   - Admin/Vezető beosztású személy részére külön oldal a hirdetmények szerkesztéséhez és törléséhez
@@ -63,8 +63,6 @@
 ### Fejlesztők
   - Nagy Viktor
   - Jobbágyi Dominik
-
-
 ## Backend
  - Fejlesztői környezet:
    - Netbeans IDE
@@ -85,7 +83,7 @@
      - java - Teszt osztályok csomag
      - resources - Kiegészítő fájlok
  - Végpont tervek és leírásuk:
-   - `GET /` - Hirdetmenyek listázása
+   - `GET /announcements` - Hirdetmenyek listázása
    - `GET /announcements/{id}` - Az adott indexű hirdetmény megtekintése
    - `POST /announcements` - Új hirdetmeny létrehozása
    - `PUT /announcements/{id}` - Az adott indexű hirdetmény módosítása 
@@ -98,6 +96,7 @@
    - `GET /messages/sent` - Az elküldött üzenetek
    - `GET /messages/received` - A fogadott üzenetek
    - `POST /messages` - Új üzenet létrehozása
+   - `POST /messages/{id}/seen` - Adott üzenet seen_at mezőjének frissítése(mikor látta az üzenet fogadója)
    - `DELETE /messages/{id}` - Küldött üzenet törlése
    - `GET /site` - Telephelyek listázása
    - `GET /site/{id}` - Az adott indexű telephely megtekintése
@@ -105,9 +104,13 @@
    - `POST /site/{id}/add` - Felhasználó hozzáadása telephelyhez
    - `POST /users` - Regisztráció
    - `POST /users/login` - Bejelentkezés
+   - `GET /users/whoami` - Felhasználó adatai
+   - `GET /users/allusers` - Összes felhasználó kilistázása
+   - `PUT /users/{id}/update` - Adott felhasználó adatainak frissítése
    - `GET /wt` - Munkaidők kilistázása
    - `GET /wt/{id}` - Az adott indexű munkaidő megtekintése
    - `POST /wt` - Új munkaidő létrehozása
+   - `PUT /wt/{id}` - Adott munkaidő frissítése
    - `DELETE /wt/{id}` - Az adott indexű munkaidő törlése
  - Végpont bemutatása (`GET /holiday`)
    - A felhasználó egy GET kérést küld a /holiday végpontra, amennyiben érvényes tokent is tartalmaz, a szerver válaszul visszaküldi a felhasználó által igényelt szabadnapokat.
