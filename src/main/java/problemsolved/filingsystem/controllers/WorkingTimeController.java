@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -96,6 +97,16 @@ public class WorkingTimeController {
         return ResponseEntity.status(403).build();
     }
     
+    @PutMapping("/{id}")
+    public ResponseEntity<WorkingTime> put(@PathVariable Integer id,@RequestBody WorkingTime reqWt) {
+        Optional<User> user = getUser();
+        Optional<WorkingTime> oWorkingTime = workingTimeRepository.findById(id);
+        if (user.isPresent() && oWorkingTime.isPresent()) {
+            reqWt.setId(id);
+            return ResponseEntity.ok(workingTimeRepository.save(reqWt));
+        }
+        return ResponseEntity.status(403).build();
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<WorkingTime> delete(@PathVariable Integer id) {
         Optional<User> user = getUser();
