@@ -51,7 +51,6 @@
 ## Beosztás
 - Admin - Minden vezetői funkció és:
   - Jogosultság állítás
-  - Új felhasználó hozzáadása
 - Vezető - Minden dolgozói funcikó és:
   - Hirdetmény kiírása
   - Szabadság igény elbírálása
